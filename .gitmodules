@@ -1,0 +1,3 @@
+[submodule "lib/mongoScripts"]
+	path = lib/mongoScripts
+	url = git@pikacode.com:rhambasan/factory-json2db.git
