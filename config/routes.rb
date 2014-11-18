@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
     get 'home' => "dynamic_pages#home"
+    post "uploadFile" => "dynamic_pages#uploadFile"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
