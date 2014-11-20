@@ -7,4 +7,13 @@ class DynamicPagesController < ApplicationController
         post = DataFile.save(params[:datafile])
         render :text => "File has been uploaded successfully"
     end
+
+    def queryPage
+    end
+
+    def handleQuery
+        respond_to do |fmt|
+            fmt.json { render :json => {message: "success"} }
+        end
+    end
 end
