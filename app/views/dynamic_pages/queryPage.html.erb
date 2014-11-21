@@ -42,21 +42,53 @@
         </div>
     </div>
 </div>
+<div id="queryResults"/>
+
 <script type="text/javascript" src="/assets/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
-function resultCallback(result) {
-    console.log(result);
+
+function renderResult(result) {
+    // STUB:
+    data = JSON.stringify(result);
+    var resItem = $(document.createElement("p")).text(data);
+    return resItem;
 }
+
+function resultCallback(results) {
+    $myres = results
+    var resContainer = $("#queryResults");
+    resContainer.empty();
+    for (var i = 0; i < results.length ; i++) {
+        resContainer.append(renderResult(results[i]));
+    }
+}
+
 $("#serialForm").submit(function() {
     $.ajax({
         type: "POST",
-        url: "/handleQuery",
+        url: "/querySerial",
         dataType: 'json',
         data: $("#serialForm").serializeArray(),
-        success: function(result) {
-            resultCallback(result);
+        success: function(results) {
+            resultCallback(results);
         }
     });
     return false;
 });
+
+$("#dateForm").submit(function() {
+    $.ajax({
+        type: "POST",
+        url: "/queryDate",
+        dataType: 'json',
+        data: $("#dateForm").serializeArray(),
+        success: function(results) {
+            //resultCallback(results);
+            console.log("unimplemented");
+        }
+    });
+    return false;
+});
+
 </script>
+
