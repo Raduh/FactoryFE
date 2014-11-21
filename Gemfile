@@ -43,3 +43,6 @@ gem 'json'
 gem 'mongo'
 gem 'bson_ext'
 gem 'bootstrap-material-design'
+
+# for configuration files
+gem 'figaro'
