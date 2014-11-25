@@ -75,7 +75,10 @@ function renderResult(result, resultId) {
     var resDiv = $(document.createElement("div")).addClass("panel-body");
 
     var rawData = JSON.stringify(result);
-    var resItem = $(document.createElement("p")).text(rawData);
+    var resItem =
+        $(document.createElement("p"))
+        .css("overflow", "auto")
+        .text(rawData);
 
     resDiv.append(resItem);
     foldedDiv.append(resDiv);
