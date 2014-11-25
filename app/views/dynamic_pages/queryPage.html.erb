@@ -74,9 +74,9 @@ function renderResult(result, resultId) {
 
     var resDiv = $(document.createElement("div")).addClass("panel-body");
 
-    var rawData = JSON.stringify(result);
+    var rawData = JSON.stringify(result, null, 4);
     var resItem =
-        $(document.createElement("p"))
+        $(document.createElement("pre"))
         .css("overflow", "auto")
         .text(rawData);
 
