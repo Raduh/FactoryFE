@@ -47,8 +47,10 @@
             </div>
         </div>
     </div>
+    <img src="/assets/loader.gif" alt="Querying..." id="qLoader">
 </div>
-<div id="queryResults" class="container"/>
+
+<div id="queryResults" class="container"></div>
 
 <script type="text/javascript" src="/assets/bootstrap-datepicker.js"></script>
 
@@ -117,9 +119,17 @@ function renderResult(result, resultId) {
 }
 
 function resultCallback(results) {
-    $myres = results
     var resContainer = $("#queryResults");
     resContainer.empty();
+
+    if (!results || results.length == 0) {
+        resContainer.append(
+                $(document.createElement("span"))
+                .text("No results :(")
+                .addClass("alert alert-danger")
+        );
+        return;
+    }
     for (var i = 0; i < results.length ; i++) {
         resContainer.append(renderResult(results[i], i));
     }
@@ -149,6 +159,14 @@ $("#dateForm").submit(function() {
         }
     });
     return false;
+});
+
+/* Run loader gif at the right time */
+$(document).ajaxStart(function() {
+        $("#qLoader").css("display", "block");
+});
+$(document).ajaxStop(function() {
+        $("#qLoader").css("display", "none");
 });
 
 </script>
