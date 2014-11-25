@@ -48,7 +48,7 @@
         </div>
     </div>
 </div>
-<div id="queryResults"/>
+<div id="queryResults" class="container"/>
 
 <script type="text/javascript" src="/assets/bootstrap-datepicker.js"></script>
 
@@ -65,11 +65,41 @@ $('#endDate').on('changeDate', function(ev) {
 <!-- ajax querying -->
 <script type="text/javascript">
 
-function renderResult(result) {
-    // STUB:
-    data = JSON.stringify(result);
-    var resItem = $(document.createElement("p")).text(data);
-    return resItem;
+function renderResult(result, resultId) {
+    var foldedDiv =
+        $(document.createElement("div"))
+        .addClass("pannel-collapse collapse")
+        .attr("id", "resultId" + resultId)
+        .css("height", "auto");
+
+    var resDiv = $(document.createElement("div")).addClass("panel-body");
+
+    var rawData = JSON.stringify(result);
+    var resItem = $(document.createElement("p")).text(rawData);
+
+    resDiv.append(resItem);
+    foldedDiv.append(resDiv);
+
+    var headDiv = $(document.createElement("div")).addClass("panel-heading");
+    var headTitle = $(document.createElement("h4")).addClass("panel-title");
+    var headLink =
+        $(document.createElement("a"))
+        .addClass("collapsed")
+        .attr("data-toggle", "collapse")
+        .attr("data-parent", "#queryResults")
+        .attr("href", "#resultId" + resultId)
+        .text(result["serialnumber"]);
+
+    headTitle.append(headLink);
+    headDiv.append(headTitle);
+
+    var completeElement = 
+        $(document.createElement("div"))
+        .addClass("panel panel-default");
+    completeElement.append(headDiv);
+    completeElement.append(foldedDiv);
+
+    return completeElement;
 }
 
 function resultCallback(results) {
@@ -77,7 +107,7 @@ function resultCallback(results) {
     var resContainer = $("#queryResults");
     resContainer.empty();
     for (var i = 0; i < results.length ; i++) {
-        resContainer.append(renderResult(results[i]));
+        resContainer.append(renderResult(results[i], i));
     }
 }
 
