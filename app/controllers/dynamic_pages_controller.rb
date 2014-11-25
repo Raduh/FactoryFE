@@ -28,7 +28,6 @@ class DynamicPagesController < ApplicationController
         results.each do |r|
             # remove useless data
             r.delete "_id"
-            r.delete "measurements"
             # add location info
             place = toLocation r["location"]
             r["place"] = place if place != nil
