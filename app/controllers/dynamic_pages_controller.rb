@@ -1,6 +1,7 @@
 require 'mongo'
-require 'json'
 include Mongo
+require 'json'
+require 'time'
 
 class DynamicPagesController < ApplicationController
     def home
@@ -17,11 +18,10 @@ class DynamicPagesController < ApplicationController
 
     def querySerial
         serialN = params[:inputSerial]
+
         client = MongoClient.from_uri(ENV['MONGO_URI']) 
-        $COLL = client['factory_data']['series1']
-
-        resultsCursor = $COLL.find('serialnumber' => serialN)
-
+        coll = client['factory_data']['series1']  # collection
+        resultsCursor = coll.find('serialnumber' => serialN)
         results = resultsCursor.to_a
         
         respond_to do |fmt|
@@ -30,13 +30,18 @@ class DynamicPagesController < ApplicationController
     end
 
     def queryDate
-        query = params[:inputDate]
-        puts "UNIMPLEMENTED:"
-        puts query.class
-        puts query
+        fmt = "%m/%d/%Y"
+        _start = Date.strptime(params[:startDate], fmt).to_time.to_i
+        _end = Date.strptime(params[:endDate], fmt).to_time.to_i
+
+        client = MongoClient.from_uri(ENV['MONGO_URI']) 
+        coll = client['factory_data']['series1'] # collection
+        resultsCursor =
+            coll.find('startTime' => {'$gte' => _start, '$lte' => _end})
+        results = resultsCursor.to_a
 
         respond_to do |fmt|
-            fmt.json { render :json => "{status: 'not_implemented'}" }
+            fmt.json { render :json => results.to_json }
         end
     end
 

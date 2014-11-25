@@ -26,9 +26,15 @@
                     <fieldset>
                         <legend>Query by date</legend>
                         <div class="form-group">
-                            <label for="inputDate" class="col-lg-2 control-label">Date</label>
+                            <label for="startDate" class="col-lg-2 control-label">Start date:</label>
                             <div class="col-lg-10">
-                                <input type="text" id="inputDate" class="form-control datepicker" name="inputDate" />
+                                <input type="text" id="startDate" class="form-control datepicker" name="startDate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate" class="col-lg-2 control-label">End date:</label>
+                            <div class="col-lg-10">
+                                <input type="text" id="endDate" class="form-control datepicker" name="endDate" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,8 +89,7 @@ $("#dateForm").submit(function() {
         dataType: 'json',
         data: $("#dateForm").serializeArray(),
         success: function(results) {
-            //resultCallback(results);
-            console.log("unimplemented");
+            resultCallback(results);
         }
     });
     return false;
