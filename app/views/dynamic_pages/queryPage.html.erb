@@ -51,6 +51,18 @@
 <div id="queryResults"/>
 
 <script type="text/javascript" src="/assets/bootstrap-datepicker.js"></script>
+
+<!-- autohide datepickers after selection -->
+<script type="text/javascript">
+$('#startDate').on('changeDate', function(ev) {
+    $(this).datepicker('hide');
+});
+$('#endDate').on('changeDate', function(ev) {
+    $(this).datepicker('hide');
+});
+</script>
+
+<!-- ajax querying -->
 <script type="text/javascript">
 
 function renderResult(result) {
