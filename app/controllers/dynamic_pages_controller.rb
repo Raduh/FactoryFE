@@ -24,6 +24,9 @@ class DynamicPagesController < ApplicationController
         resultsCursor = coll.find('serialnumber' => serialN)
         results = resultsCursor.to_a
         
+        # remove useless data
+        results.each {|r| r.delete "_id"; r.delete "measurements"}
+
         respond_to do |fmt|
             fmt.json { render :json => results.to_json }
         end
@@ -39,6 +42,9 @@ class DynamicPagesController < ApplicationController
         resultsCursor =
             coll.find('startTime' => {'$gte' => _start, '$lte' => _end})
         results = resultsCursor.to_a
+        
+        # remove useless data
+        results.each {|r| r.delete "_id"; r.delete "measurements"}
 
         respond_to do |fmt|
             fmt.json { render :json => results.to_json }
