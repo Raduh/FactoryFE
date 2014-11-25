@@ -90,8 +90,19 @@ function renderResult(result, resultId) {
         .addClass("collapsed")
         .attr("data-toggle", "collapse")
         .attr("data-parent", "#queryResults")
-        .attr("href", "#resultId" + resultId)
-        .text(result["serialnumber"]);
+        .attr("href", "#resultId" + resultId);
+    headLink.append($(document.createElement("span"))
+            .text(result["serialnumber"]));
+    if (result.hasOwnProperty("place")) {
+        headLink.append($(document.createElement("br")));
+        headLink.append($(document.createElement("span"))
+                .text(result["place"]));
+    }
+    if (result.hasOwnProperty("pretty_date")) {
+        headLink.append($(document.createElement("br")));
+        headLink.append($(document.createElement("span"))
+            .text(result["pretty_date"]));
+    }
 
     headTitle.append(headLink);
     headDiv.append(headTitle);
