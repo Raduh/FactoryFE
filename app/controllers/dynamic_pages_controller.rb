@@ -5,7 +5,7 @@ require 'time'
 require 'open-uri'
 
 class DynamicPagesController < ApplicationController
-    def home
+    def upload
         render :file => 'app/views/upload/uploadfile'
     end
 

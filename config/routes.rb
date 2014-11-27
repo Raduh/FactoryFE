@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-    get 'home' => "dynamic_pages#home"
+    get 'upload' => "dynamic_pages#upload"
+    get '/' => "dynamic_pages#queryPage"
     post "uploadFile" => "dynamic_pages#uploadFile"
-    get 'queryPage' => "dynamic_pages#queryPage"
     post "querySerial" => "dynamic_pages#querySerial"
     post "queryDate" => "dynamic_pages#queryDate"
   # The priority is based upon order of creation: first created -> highest priority.
