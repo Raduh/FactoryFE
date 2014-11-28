@@ -48,7 +48,8 @@ class DynamicPagesController < ApplicationController
         client = MongoClient.from_uri(ENV['MONGO_URI']) 
         coll = client['factory_data']['series1'] # collection
         resultsCursor =
-            coll.find('startTime' => {'$gte' => _start, '$lte' => _end})
+            coll.find({'startTime' => {'$gte' => _start, '$lte' => _end}},
+                      {:fields => ["serialnumber", "allPassed", "startTime", "location"]})
         results = resultsCursor.to_a
         
         # remove useless data
