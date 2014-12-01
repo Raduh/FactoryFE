@@ -1,0 +1,9 @@
+<div class="container">
+    <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+    <h1>You need to sign in first</h1>
+
+    <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
+</div>
+

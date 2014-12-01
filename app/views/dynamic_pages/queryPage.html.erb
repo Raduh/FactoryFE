@@ -1,6 +1,11 @@
 <div class="container" style="padding-top: 10%">
     <div class="row">
         <div class="col-lg-4 col-lg-offset-1">
+            <a href="/upload" class="btn btn-large btn-primary">Upload file</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-1">
             <div class="well bs-component">
                 <form id="serialForm" class="form-horizontal">
                     <fieldset>
@@ -57,11 +62,11 @@
 <!-- autohide datepickers after selection -->
 <script type="text/javascript">
 $('#startDate').on('changeDate', function(ev) {
-    $(this).datepicker('hide');
-});
+        $(this).datepicker('hide');
+        });
 $('#endDate').on('changeDate', function(ev) {
-    $(this).datepicker('hide');
-});
+        $(this).datepicker('hide');
+        });
 </script>
 
 <!-- ajax querying -->
@@ -103,7 +108,7 @@ function renderResult(result, resultId) {
     if (result.hasOwnProperty("pretty_date")) {
         headLink.append($(document.createElement("br")));
         headLink.append($(document.createElement("span"))
-            .text(result["pretty_date"]));
+                .text(result["pretty_date"]));
     }
 
     headTitle.append(headLink);
@@ -127,7 +132,7 @@ function resultCallback(results) {
                 $(document.createElement("span"))
                 .text("No results :(")
                 .addClass("alert alert-danger")
-        );
+                );
         return;
     }
     for (var i = 0; i < results.length ; i++) {
@@ -136,38 +141,38 @@ function resultCallback(results) {
 }
 
 $("#serialForm").submit(function() {
-    $.ajax({
-        type: "POST",
-        url: "/querySerial",
-        dataType: 'json',
-        data: $("#serialForm").serializeArray(),
-        success: function(results) {
-            resultCallback(results);
-        }
-    });
-    return false;
+        $.ajax({
+type: "POST",
+url: "/querySerial",
+dataType: 'json',
+data: $("#serialForm").serializeArray(),
+success: function(results) {
+resultCallback(results);
+}
 });
+        return false;
+        });
 
 $("#dateForm").submit(function() {
-    $.ajax({
-        type: "POST",
-        url: "/queryDate",
-        dataType: 'json',
-        data: $("#dateForm").serializeArray(),
-        success: function(results) {
-            resultCallback(results);
-        }
-    });
-    return false;
+        $.ajax({
+type: "POST",
+url: "/queryDate",
+dataType: 'json',
+data: $("#dateForm").serializeArray(),
+success: function(results) {
+resultCallback(results);
+}
 });
+        return false;
+        });
 
 /* Run loader gif at the right time */
 $(document).ajaxStart(function() {
         $("#qLoader").css("display", "block");
-});
+        });
 $(document).ajaxStop(function() {
         $("#qLoader").css("display", "none");
-});
+        });
 
 </script>
 

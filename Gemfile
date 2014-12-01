@@ -46,3 +46,7 @@ gem 'bootstrap-material-design'
 
 # for configuration files
 gem 'figaro'
+
+# for Google Authentication
+gem "omniauth-google-oauth2", "~> 0.2.1"
+
