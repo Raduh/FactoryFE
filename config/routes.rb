@@ -12,8 +12,12 @@ Rails.application.routes.draw do
 
     get 'upload' => "dynamic_pages#upload"
     post "uploadFile" => "dynamic_pages#uploadFile"
-    post "querySerial" => "dynamic_pages#querySerial"
+    get "querySerial" => "dynamic_pages#querySerial"
     post "queryDate" => "dynamic_pages#queryDate"
+
+    get "serial/:serialno" => "dynamic_pages#showSerial"
+    get "serial/:serialno/:measurementId" => "dynamic_pages#showMeasurement"
+
     # The priority is based upon order of creation: first created -> highest priority.
     # See how all your routes lay out with "rake routes".
 

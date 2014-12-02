@@ -1,0 +1,28 @@
+<div class="container marketing">
+    <h1><%= serialno %></h1>
+    <% results.each_with_index do |res, id| %>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" href="#rId<%= id %>">
+                        <span><%= res["serialnumber"] %></span>
+                        <% if res["place"] %>
+                            <br/>
+                            <span><%= res["place"] %></span>
+                        <% end %>
+                        <% if res["pretty_date"] %>
+                            <br/>
+                            <span><%= res["pretty_date"] %></span>
+                        <% end %>
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="rId<%= id %>" style="height: auto">
+                <div class="panel-body">
+                    <pre style="overflow: auto"><%= JSON.pretty_generate res %></pre>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>
+

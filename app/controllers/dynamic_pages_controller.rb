@@ -19,25 +19,7 @@ class DynamicPagesController < ApplicationController
 
     def querySerial
         serialN = params[:inputSerial]
-
-        client = MongoClient.from_uri(ENV['MONGO_URI']) 
-        coll = client['factory_data']['series1']  # collection
-        resultsCursor = coll.find('serialnumber' => serialN)
-        results = resultsCursor.to_a
-        
-        results.each do |r|
-            # remove useless data
-            r.delete "_id"
-            # add location info
-            place = toLocation r["location"]
-            r["place"] = place if place != nil
-            # add nicely formatted date
-            r["pretty_date"] = toDateStr r["startTime"]
-        end
-
-        respond_to do |fmt|
-            fmt.json { render :json => results.to_json }
-        end
+        redirect_to "/serial/#{serialN}"
     end
 
     def queryDate
@@ -62,6 +44,31 @@ class DynamicPagesController < ApplicationController
         respond_to do |fmt|
             fmt.json { render :json => results.to_json }
         end
+    end
+
+    def showSerial
+        serialN = params[:serialno]
+
+        client = MongoClient.from_uri(ENV['MONGO_URI']) 
+        coll = client['factory_data']['series1']  # collection
+        resultsCursor = coll.find('serialnumber' => serialN)
+        results = resultsCursor.to_a
+        
+        results.each do |r|
+            # remove useless data
+            r.delete "_id"
+            # add location info
+            place = toLocation r["location"]
+            r["place"] = place if place != nil
+            # add nicely formatted date
+            r["pretty_date"] = toDateStr r["startTime"]
+        end
+
+        render "serial", locals: { serialno: serialN, results: results }
+
+    end
+
+    def showMeasurement
     end
 
     private
