@@ -98,8 +98,15 @@ function renderResult(result, resultId) {
         .attr("data-toggle", "collapse")
         .attr("data-parent", "#queryResults")
         .attr("href", "#resultId" + resultId);
-    headLink.append($(document.createElement("span"))
-            .text(result["serialnumber"]));
+    var headLinkId = $(document.createElement("span"))
+        .text(result["serialnumber"])
+        .css("font-weight", "bold");
+    if (result.hasOwnProperty("allPassed")) {
+        var color = "red";
+        if (result["allPassed"]) color = "green"
+            headLinkId.css("color", color);
+    }
+    headLink.append(headLinkId);
     if (result.hasOwnProperty("place")) {
         headLink.append($(document.createElement("br")));
         headLink.append($(document.createElement("span"))

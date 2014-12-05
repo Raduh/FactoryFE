@@ -1,3 +1,42 @@
+<script type="text/javascript">
+function getPlot(data) {
+    var canv = $(document.createElement("canvas"));
+    var ctx = canv[0].getContext('2d');
+
+    var xScale = 1/100.0;
+    var yScale = -1.0;
+
+    // set attributes for all lines
+    ctx.lineWidth = 5;
+    ctx.lineJoin = 'round';
+
+    ctx.beginPath();
+    ctx.lineWidth = 0;
+    ctx.moveTo(0, 0);
+    for(var anonK in data) {
+        var item = data[anonK];
+        if (!item.hasOwnProperty("signalLevel") ||
+            !item.hasOwnProperty("timestamp")) {
+            continue;
+        }
+
+        var x = item["timestamp"] * xScale;
+        var y = item["signalLevel"] * yScale;
+        
+        console.log("drew line");
+        ctx.lineTo(x,y);
+
+        // this avoids drawing the first line
+        ctx.lineWidth = 2; 
+        
+        ctx.fillRect(x, y, 3, 3); 
+        ctx.moveTo(x, y);
+        ctx.stroke();
+    }
+    return canv;
+}
+</script>
+
 <div class="container marketing">
     <h1><%= serialno %></h1>
     <% results.each_with_index do |res, id| %>
@@ -20,6 +59,16 @@
             <div class="panel-collapse collapse" id="rId<%= id %>" style="height: auto">
                 <div class="panel-body">
                     <pre style="overflow: auto"><%= JSON.pretty_generate res %></pre>
+                    <div id="canvas<%= id %>"></div>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            var rawRes = "<%= res.to_json %>".replace(/&quot;/g, '"');
+                            var r = JSON.parse(rawRes);
+                            if (r.hasOwnProperty("measurements")) {
+                                $("#canvas<%= id %>").prepend(getPlot(r["measurements"]));
+                            }
+});
+</script>
                 </div>
             </div>
         </div>

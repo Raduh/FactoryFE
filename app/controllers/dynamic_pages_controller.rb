@@ -32,18 +32,18 @@ class DynamicPagesController < ApplicationController
         resultsCursor =
             coll.find({'startTime' => {'$gte' => _start, '$lte' => _end}},
                       {:fields => ["serialnumber", "allPassed", "startTime", "location"]})
-        results = resultsCursor.to_a
-        
-        # remove useless data
-        results.each do |r|
-            r.delete "_id"
-            r.delete "measurements"
-            r["pretty_date"] = toDateStr r["startTime"]
-        end
+            results = resultsCursor.to_a
 
-        respond_to do |fmt|
-            fmt.json { render :json => results.to_json }
-        end
+            # remove useless data
+            results.each do |r|
+                r.delete "_id"
+                r.delete "measurements"
+                r["pretty_date"] = toDateStr r["startTime"]
+            end
+
+            respond_to do |fmt|
+                fmt.json { render :json => results.to_json }
+            end
     end
 
     def showSerial
@@ -53,7 +53,12 @@ class DynamicPagesController < ApplicationController
         coll = client['factory_data']['series1']  # collection
         resultsCursor = coll.find('serialnumber' => serialN)
         results = resultsCursor.to_a
-        
+
+        if results.empty?
+            render "noresults"
+            return
+        end
+
         results.each do |r|
             # remove useless data
             r.delete "_id"
@@ -69,6 +74,29 @@ class DynamicPagesController < ApplicationController
     end
 
     def showMeasurement
+        serialN = params[:serialno]
+        mId = params[:measurementId].to_i - 1
+
+        client = MongoClient.from_uri(ENV['MONGO_URI']) 
+        coll = client['factory_data']['series1']  # collection
+        resultsCursor = coll.find('serialnumber' => serialN)
+        results = resultsCursor.to_a
+
+        qResult = results[mId]
+        if qResult.nil?
+            render "noresults"
+            return
+        end
+
+        # remove useless data
+        qResult.delete "_id"
+        # add location info
+        place = toLocation qResult["location"]
+        qResult["place"] = place if place != nil
+        # add nicely formatted date
+        qResult["pretty_date"] = toDateStr qResult["startTime"]
+
+        render "serial", locals: { serialno: serialN, results: [qResult] }
     end
 
     private
